@@ -4,7 +4,7 @@
   </a>
 </p>
 <h3 align="center">
-   Rosetta Ethereum
+   Rosetta Cypherium
 </h3>
 <p align="center">
   <a href="https://circleci.com/gh/cypherium/rosetta-cypherium/tree/master"><img src="https://circleci.com/gh/cypherium/rosetta-cypherium/tree/master.svg?style=shield" /></a>
@@ -20,7 +20,7 @@ USE AT YOUR OWN RISK! COINBASE ASSUMES NO RESPONSIBILITY OR LIABILITY IF THERE I
 </b></p>
 
 ## Overview
-`rosetta-ethereum` provides a reference implementation of the Rosetta API for Ethereum in Golang. If you haven't heard of the Rosetta API, you can find more information [here](https://rosetta-api.org).
+`rosetta-cypherium` provides a reference implementation of the Rosetta API for Cypherium in Golang. If you haven't heard of the Rosetta API, you can find more information [here](https://rosetta-api.org).
 
 ## Features
 * Comprehensive tracking of all ETH balance changes
@@ -29,12 +29,12 @@ USE AT YOUR OWN RISK! COINBASE ASSUMES NO RESPONSIBILITY OR LIABILITY IF THERE I
 * Idempotent access to all transaction traces and receipts
 
 ## System Requirements
-`rosetta-ethereum` has been tested on an [AWS c5.2xlarge instance](https://aws.amazon.com/ec2/instance-types/c5).
+`rosetta-cypherium` has been tested on an [AWS c5.2xlarge instance](https://aws.amazon.com/ec2/instance-types/c5).
 This instance type has 8 vCPU and 16 GB of RAM. If you use a computer with less than 16 GB of RAM,
-it is possible that `rosetta-ethereum` will exit with an OOM error.
+it is possible that `rosetta-cypherium` will exit with an OOM error.
 
 ### Recommended OS Settings
-To increase the load `rosetta-ethereum` can handle, it is recommended to tune your OS
+To increase the load `rosetta-cypherium` can handle, it is recommended to tune your OS
 settings to allow for more connections. On a linux-based OS, you can run the following
 commands ([source](http://www.tweaked.io/guide/kernel)):
 ```text
@@ -45,7 +45,7 @@ sysctl -w net.ipv4.tcp_max_syn_backlog=10000
 sysctl -w net.core.somaxconn=10000
 sysctl -p (when done)
 ```
-_We have not tested `rosetta-ethereum` with `net.ipv4.tcp_tw_recycle` and do not recommend
+_We have not tested `rosetta-cypherium` with `net.ipv4.tcp_tw_recycle` and do not recommend
 enabling it._
 
 You should also modify your open file settings to `100000`. This can be done on a linux-based OS
@@ -60,7 +60,7 @@ all Rosetta implementations must be deployable via Docker and support running vi
 DOCKER [HERE](https://www.docker.com/get-started).**
 
 ### Install
-Running the following commands will create a Docker image called `rosetta-ethereum:latest`.
+Running the following commands will create a Docker image called `rosetta-cypherium:latest`.
 
 #### From GitHub
 To download the pre-built Docker image from the latest release, run:
@@ -68,7 +68,7 @@ To download the pre-built Docker image from the latest release, run:
 curl -sSfL https://raw.githubusercontent.com/cypherium/rosetta-cypherium/master/install.sh | sh -s
 ```
 
-_Do not try to install rosetta-ethereum using GitHub Packages!_
+_Do not try to install rosetta-cypherium using GitHub Packages!_
 
 
 #### From Source
@@ -85,49 +85,49 @@ at port `8080`.
 
 #### Configuration Environment Variables
 * `MODE` (required) - Determines if Rosetta can make outbound connections. Options: `ONLINE` or `OFFLINE`.
-* `NETWORK` (required) - Ethereum network to launch and/or communicate with. Options: `MAINNET`, `ROPSTEN`, `RINKEBY`, `GOERLI` or `TESTNET` (which defaults to `ROPSTEN` for backwards compatibility).
+* `NETWORK` (required) - Cypherium network to launch and/or communicate with. Options: `MAINNET`, `ROPSTEN`, `RINKEBY`, `GOERLI` or `TESTNET` (which defaults to `ROPSTEN` for backwards compatibility).
 * `PORT`(required) - Which port to use for Rosetta.
 * `GETH` (optional) - Point to a remote `geth` node instead of initializing one
 * `SKIP_GETH_ADMIN` (optional, default: `FALSE`) - Instruct Rosetta to not use the `geth` `admin` RPC calls. This is typically disabled by hosted blockchain node services.
 
 #### Mainnet:Online
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/ethereum-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-ethereum:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/ethereum-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-online`._
 
 #### Mainnet:Online (Remote)
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "GETH=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-ethereum:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "GETH=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-remote geth=<NODE URL>`._
 
 #### Mainnet:Offline
 ```text
-docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-ethereum:latest
+docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-offline`._
 
 #### Testnet:Online
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/ethereum-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-ethereum:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/ethereum-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-online`._
 
 #### Testnet:Online (Remote)
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "GETH=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-ethereum:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "GETH=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-remote geth=<NODE URL>`._
 
 #### Testnet:Offline
 ```text
-docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-ethereum:latest
+docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-cypherium:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-offline`._
 
 ## Testing with rosetta-cli
-To validate `rosetta-ethereum`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install)
+To validate `rosetta-cypherium`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install)
 and run one of the following commands:
 * `rosetta-cli check:data --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the Data API implementation is correct using the ethereum `testnet` node. It also ensures that the implementation does not miss any balance-changing operations.
 * `rosetta-cli check:construction --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates the Construction API implementation. It also verifies transaction construction, signing, and submissions to the `testnet` network.
