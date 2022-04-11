@@ -47,7 +47,7 @@ RUN cd go-ethereum \
 RUN mv go-ethereum/build/bin/geth /app/geth \
   && rm -rf go-ethereum
 
-# Compile rosetta-ethereum
+# Compile rosetta-cypherium
 FROM golang-builder as rosetta-builder
 
 # Use native remote build context to build in any directory
@@ -55,7 +55,7 @@ COPY . src
 RUN cd src \
   && go build
 
-RUN mv src/rosetta-ethereum /app/rosetta-ethereum \
+RUN mv src/rosetta-cypherium /app/rosetta-cypherium \
   && mkdir /app/ethereum \
   && mv src/ethereum/call_tracer.js /app/ethereum/call_tracer.js \
   && mv src/ethereum/geth.toml /app/ethereum/geth.toml \
@@ -78,9 +78,9 @@ COPY --from=geth-builder /app/geth /app/geth
 
 # Copy binary from rosetta-builder
 COPY --from=rosetta-builder /app/ethereum /app/ethereum
-COPY --from=rosetta-builder /app/rosetta-ethereum /app/rosetta-ethereum
+COPY --from=rosetta-builder /app/rosetta-cypherium /app/rosetta-cypherium
 
 # Set permissions for everything added to /app
 RUN chmod -R 755 /app/*
 
-CMD ["/app/rosetta-ethereum", "run"]
+CMD ["/app/rosetta-cypherium", "run"]
